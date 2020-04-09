@@ -1,8 +1,8 @@
 """
 hw6.py
-Name(s):
-NetId(s):
-Date:
+Name(s): Pranay Pherwani
+NetId(s): prp12
+Date: 4/9/20
 """
 
 import math
@@ -13,21 +13,31 @@ import matplotlib.pyplot as plt
 FE: Forward Euler
 """
 def FE(w0, z, m, w, x0, T, N):
+	# calculate matrix A and delta t
 	A = numpy.matrix([[0,1],[-(w0**2),-2*z*w0]])	
 	dt = T/N
 
+	# Initialize the vector x
 	xV = [0]*(N+1)
 	xV[0]=x0
 
+	# Initialize x representing displacement
 	x = [0]*(N+1)
 	x[0] = x0.A[0][0]
 
+	# Initialize t representing time
 	t = [0]*(N+1)
+
+	# Fill t with the timesteps
 	for s in range(N+1):
 		t[s] = s*dt
+
+	# Calculate b and use the update rule to calculate the next vector x
 	for n in range(N):
 		b = numpy.matrix([[0],[math.cos(w*t[n])]])
 		xV[n+1] = xV[n]+ dt*A*xV[n]+dt*b
+
+		# Get the displacement x from the vector x
 		x[n+1]=xV[n+1].A[0][0]
 
 	return (x,t)
@@ -36,18 +46,26 @@ def FE(w0, z, m, w, x0, T, N):
 BE: Backward Euler
 """
 def BE(w0, z, m, w, x0, T, N):
+	# calculate matrix A and delta t
 	A = numpy.matrix([[0,1],[-(w0**2),-2*z*w0]])	
 	dt = T/N
 
+	# Initialize the vector x
 	xV = [0]*(N+1)
 	xV[0]=x0
 
+	# Initialize x representing displacement
 	x = [0]*(N+1)
 	x[0] = x0.A[0][0]
 
+	# Initialize t representing time
 	t = [0]*(N+1)
+
+	# Fill t with the timesteps
 	for s in range(N+1):
 		t[s] = s*dt
+
+	# Calculate b and use the update rule to calculate the next vector x
 	for n in range(N):
 		b = numpy.matrix([[0],[math.cos(w*t[n+1])]])
 		xV[n+1] = (numpy.matrix([[1,0],[0,1]])-dt*A).I*(xV[n]+dt*b)
@@ -59,18 +77,26 @@ def BE(w0, z, m, w, x0, T, N):
 CN: Crank-Nicolson
 """
 def CN(w0, z, m, w, x0, T, N):
+	# calculate matrix A and delta t
 	A = numpy.matrix([[0,1],[-(w0**2),-2*z*w0]])	
 	dt = T/N
 
+	# Initialize the vector x
 	xV = [0]*(N+1)
 	xV[0]=x0
 
+	# Initialize x representing displacement
 	x = [0]*(N+1)
 	x[0] = x0.A[0][0]
 
+	# Initialize t representing time
 	t = [0]*(N+1)
+
+	# Fill t with the timesteps
 	for s in range(N+1):
 		t[s] = s*dt
+
+	# Calculate b and use the update rule to calculate the next vector x
 	for n in range(N):
 		b1 = numpy.matrix([[0],[math.cos(w*t[n])]])
 		b2 = numpy.matrix([[0],[math.cos(w*t[n+1])]])
@@ -83,18 +109,26 @@ def CN(w0, z, m, w, x0, T, N):
 RK4: fourth order Runge-Kutta
 """
 def RK4(w0, z, m, w, x0, T, N):
+	# calculate matrix A and delta t
 	A = numpy.matrix([[0,1],[-(w0**2),-2*z*w0]])	
 	dt = T/N
 
+	# Initialize the vector x
 	xV = [0]*(N+1)
 	xV[0]=x0
 
+	# Initialize x representing displacement
 	x = [0]*(N+1)
 	x[0] = x0.A[0][0]
 
+	# Initialize t representing time
 	t = [0]*(N+1)
+
+	# Fill t with the timesteps
 	for s in range(N+1):
 		t[s] = s*dt
+
+	# Calculate b and use the update rule to calculate the next vector x
 	for n in range(N):
 		b1 = numpy.matrix([[0],[math.cos(w*t[n])]])
 		k1 = dt*A*xV[n]+dt*b1
@@ -118,6 +152,7 @@ main
 """
 if __name__ == '__main__':
 
+	# Find the actual value for step 3
 	correct = (1/2)*(math.sin(10)-10*(math.e**(-10)))
 
     # Create the range of N values.
@@ -155,7 +190,7 @@ if __name__ == '__main__':
 		CNErrors.append(abs((cn-correct)/correct))
 		RK4Errors.append(abs((rk4-correct)/correct))
 
-	# plot the errors vs N for left point rule
+	# plot the errors vs N for FE
 	plt.figure()
 	fig, ax = plt.subplots()
 	ax.set_yscale('log')
@@ -168,7 +203,7 @@ if __name__ == '__main__':
 	plt.savefig('FE.png', bbox_inches='tight') 
 	plt.close('all')
 
-	# plot the errors vs N for left point rule
+	# plot the errors vs N for BE
 	plt.figure()
 	fig, ax = plt.subplots()
 	ax.set_yscale('log')
@@ -181,7 +216,7 @@ if __name__ == '__main__':
 	plt.savefig('BE.png', bbox_inches='tight') 
 	plt.close('all')
 
-	# plot the errors vs N for left point rule
+	# plot the errors vs N for CN
 	plt.figure()
 	fig, ax = plt.subplots()
 	ax.set_yscale('log')
@@ -194,7 +229,7 @@ if __name__ == '__main__':
 	plt.savefig('CN.png', bbox_inches='tight') 
 	plt.close('all')
 
-	# plot the errors vs N for left point rule
+	# plot the errors vs N for RK4
 	plt.figure()
 	fig, ax = plt.subplots()
 	ax.set_yscale('log')
@@ -208,16 +243,16 @@ if __name__ == '__main__':
 	plt.close('all')
 
 	# Part 4
-	
 
+	# Use CN to calculate the values for w=0.8,0.9,1
 	(x1,times) = CN(1,0,1,0.8,numpy.matrix([[0],[0]]),100,100)
 	x2 = CN(1,0,1,0.9,numpy.matrix([[0],[0]]),100,100)[0]
 	x3 = CN(1,0,1,1,numpy.matrix([[0],[0]]),100,100)[0]
 
-	# plot the errors vs N for left point rule
+	# plot x vs t for w=0.8
 	plt.figure()
 	fig, ax = plt.subplots()
-	ax.plot(times, x1, label = 'w=0.8')
+	ax.plot(times, x1, label = 'x(t)')
 	legend = ax.legend(loc='upper left')
 	plt.title('x vs t for w=0.8')
 	plt.xlabel('t')
@@ -225,10 +260,10 @@ if __name__ == '__main__':
 	plt.savefig('x1.png', bbox_inches='tight') 
 	plt.close('all')
 
-	# plot the errors vs N for left point rule
+	# plot x vs t for w=0.9
 	plt.figure()
 	fig, ax = plt.subplots()
-	ax.plot(times, x2, label = 'w=0.9')
+	ax.plot(times, x2, label = 'x(t)')
 	legend = ax.legend(loc='upper left')
 	plt.title('x vs t for w=0.9')
 	plt.xlabel('t')
@@ -236,10 +271,10 @@ if __name__ == '__main__':
 	plt.savefig('x2.png', bbox_inches='tight') 
 	plt.close('all')
 
-	# plot the errors vs N for left point rule
+	# plot x vs t for w=1
 	plt.figure()
 	fig, ax = plt.subplots()
-	ax.plot(times, x3, label = 'w=1')
+	ax.plot(times, x3, label = 'x(t)')
 	legend = ax.legend(loc='upper left')
 	plt.title('x vs t for w=1')
 	plt.xlabel('t')
@@ -248,16 +283,22 @@ if __name__ == '__main__':
 	plt.close('all')
 
 	# Part 5
+
+	# Initialize w list and max displacement list
 	wValues = []
 	maxValues = []
+
+	# Set w list to 0.1 to 10 with 0.1 increments
 	for i in range(1,101):
 		wValues.append(i/10)
+
+	# Calculate max values from displacement lists using CN for each w
 	for w in wValues:
 		x = CN(1,1/10,1,w,numpy.matrix([[0],[0]]),100,100)[0]
 		absValues =[abs(n) for n in x]
 		maxValues.append(max(absValues))
 
-	# plot the errors vs N for left point rule
+	# plot the maximum displacement vs w
 	plt.figure()
 	fig, ax = plt.subplots()
 	ax.set_yscale('log')
