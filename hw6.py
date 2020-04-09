@@ -74,9 +74,7 @@ def CN(w0, z, m, w, x0, T, N):
 	for n in range(N):
 		b1 = numpy.matrix([[0],[math.cos(w*t[n])]])
 		b2 = numpy.matrix([[0],[math.cos(w*t[n+1])]])
-		xV[n+1] = ((numpy.matrix([[1,0],[0,1]])-(dt/2)*A).I
-					*((numpy.matrix([[1,0],[0,1]])-(dt/2)*A)*xV[n]
-						+dt*(b1+b2)/2))
+		xV[n+1] = ((numpy.matrix([[1,0],[0,1]])-(dt/2)*A).I*((numpy.matrix([[1,0],[0,1]])+(dt/2)*A)*xV[n]+dt*(b1+b2)/2))
 		x[n+1]=xV[n+1].A[0][0]
 
 	return (x,t)
@@ -119,14 +117,6 @@ def RK4(w0, z, m, w, x0, T, N):
 main
 """
 if __name__ == '__main__':
-	print('FE')
-	print(FE(1,1,1,1,numpy.matrix([[0],[0]]),10,10))
-	print('BE')
-	print(BE(1,1,1,1,numpy.matrix([[0],[0]]),10,10))
-	print('CN')
-	print(CN(1,1,1,1,numpy.matrix([[0],[0]]),10,10))
-	print('RK4')
-	print(RK4(1,1,1,1,numpy.matrix([[0],[0]]),10,10))
 
 	correct = (1/2)*(math.sin(10)-10*(math.e**(-10)))
 
@@ -176,6 +166,45 @@ if __name__ == '__main__':
 	plt.xlabel('N')
 	plt.ylabel('Error')
 	plt.savefig('FE.png', bbox_inches='tight') 
+	plt.close('all')
+
+	# plot the errors vs N for left point rule
+	plt.figure()
+	fig, ax = plt.subplots()
+	ax.set_yscale('log')
+	ax.set_xscale('log')
+	ax.plot(N, BEErrors, label = 'BE errors')
+	legend = ax.legend(loc='upper left')
+	plt.title('BE Errors vs N')
+	plt.xlabel('N')
+	plt.ylabel('Error')
+	plt.savefig('BE.png', bbox_inches='tight') 
+	plt.close('all')
+
+	# plot the errors vs N for left point rule
+	plt.figure()
+	fig, ax = plt.subplots()
+	ax.set_yscale('log')
+	ax.set_xscale('log')
+	ax.plot(N, CNErrors, label = 'CN errors')
+	legend = ax.legend(loc='upper left')
+	plt.title('CN Errors vs N')
+	plt.xlabel('N')
+	plt.ylabel('Error')
+	plt.savefig('CN.png', bbox_inches='tight') 
+	plt.close('all')
+
+	# plot the errors vs N for left point rule
+	plt.figure()
+	fig, ax = plt.subplots()
+	ax.set_yscale('log')
+	ax.set_xscale('log')
+	ax.plot(N, RK4Errors, label = 'RK4 errors')
+	legend = ax.legend(loc='upper left')
+	plt.title('RK4 Errors vs N')
+	plt.xlabel('N')
+	plt.ylabel('Error')
+	plt.savefig('RK4.png', bbox_inches='tight') 
 	plt.close('all')
 
 
