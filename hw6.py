@@ -131,7 +131,7 @@ if __name__ == '__main__':
 	correct = (1/2)*(math.sin(10)-10*(math.e**(-10)))
 
     # Create the range of N values.
-	N = [10**p for p in range(2,6)]
+	N = [10**p for p in range(2,5)]
 
 	# Initialize values lists
 	FEValues = []
@@ -164,6 +164,19 @@ if __name__ == '__main__':
 		BEErrors.append(abs((be-correct)/correct))
 		CNErrors.append(abs((cn-correct)/correct))
 		RK4Errors.append(abs((rk4-correct)/correct))
+
+	# plot the errors vs N for left point rule
+	plt.figure()
+	fig, ax = plt.subplots()
+	ax.set_yscale('log')
+	ax.set_xscale('log')
+	ax.plot(N, FEErrors, label = 'FE errors')
+	legend = ax.legend(loc='upper left')
+	plt.title('FE Errors vs N')
+	plt.xlabel('N')
+	plt.ylabel('Error')
+	plt.savefig('FE.png', bbox_inches='tight') 
+	plt.close('all')
 
 
 
