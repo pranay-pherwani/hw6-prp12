@@ -128,6 +128,44 @@ if __name__ == '__main__':
 	print('RK4')
 	print(RK4(1,1,1,1,numpy.matrix([[0],[0]]),10,10))
 
+	correct = (1/2)*(math.sin(10)-10*(math.e**(-10)))
+
+    # Create the range of N values.
+	N = [10**p for p in range(2,6)]
+
+	# Initialize values lists
+	FEValues = []
+	BEValues = []
+	CNValues = []
+	RK4Values = []
+
+	# Initialize errors lists
+	FEErrors = []
+	BEErrors = []
+	CNErrors = []
+	RK4Errors = []
+
+	# For each N, calculate the value for each rule and the error
+	for n in N:
+		# calculate the values for each rule
+		fe = FE(1,1,1,1,numpy.matrix([[0],[0]]),10,n)[0][-1]
+		be = BE(1,1,1,1,numpy.matrix([[0],[0]]),10,n)[0][-1]
+		cn = CN(1,1,1,1,numpy.matrix([[0],[0]]),10,n)[0][-1]
+		rk4 = RK4(1,1,1,1,numpy.matrix([[0],[0]]),10,n)[0][-1]
+
+		# append the values to the lists
+		FEValues.append(fe)
+		BEValues.append(be)
+		CNValues.append(cn)
+		RK4Values.append(rk4)
+
+		# calculate the errors and append them to the errors lists
+		FEErrors.append(abs((fe-correct)/correct))
+		BEErrors.append(abs((be-correct)/correct))
+		CNErrors.append(abs((cn-correct)/correct))
+		RK4Errors.append(abs((rk4-correct)/correct))
+
+
 
 
 
