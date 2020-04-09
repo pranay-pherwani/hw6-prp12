@@ -211,8 +211,8 @@ if __name__ == '__main__':
 	
 
 	(x1,times) = CN(1,0,1,0.8,numpy.matrix([[0],[0]]),100,100000)
-	x2 = CN(1,0,1,0.9,numpy.matrix([[0],[0]]),100,100000)
-	x3 = CN(1,0,1,1,numpy.matrix([[0],[0]]),100,100000)
+	x2 = CN(1,0,1,0.9,numpy.matrix([[0],[0]]),100,100000)[0]
+	x3 = CN(1,0,1,1,numpy.matrix([[0],[0]]),100,100000)[0]
 
 	# plot the errors vs N for left point rule
 	plt.figure()
@@ -223,6 +223,28 @@ if __name__ == '__main__':
 	plt.xlabel('t')
 	plt.ylabel('x')
 	plt.savefig('x1.png', bbox_inches='tight') 
+	plt.close('all')
+
+	# plot the errors vs N for left point rule
+	plt.figure()
+	fig, ax = plt.subplots()
+	ax.plot(times, x2, label = 'w=0.9')
+	legend = ax.legend(loc='upper left')
+	plt.title('x vs t for w=0.9')
+	plt.xlabel('t')
+	plt.ylabel('x')
+	plt.savefig('x2.png', bbox_inches='tight') 
+	plt.close('all')
+
+	# plot the errors vs N for left point rule
+	plt.figure()
+	fig, ax = plt.subplots()
+	ax.plot(times, x3, label = 'w=1')
+	legend = ax.legend(loc='upper left')
+	plt.title('x vs t for w=1')
+	plt.xlabel('t')
+	plt.ylabel('x')
+	plt.savefig('x3.png', bbox_inches='tight') 
 	plt.close('all')
 
 
