@@ -210,9 +210,9 @@ if __name__ == '__main__':
 	# Part 4
 	
 
-	(x1,times) = CN(1,0,1,0.8,numpy.matrix([[0],[0]]),100,100000)
-	x2 = CN(1,0,1,0.9,numpy.matrix([[0],[0]]),100,100000)[0]
-	x3 = CN(1,0,1,1,numpy.matrix([[0],[0]]),100,100000)[0]
+	(x1,times) = CN(1,0,1,0.8,numpy.matrix([[0],[0]]),100,100)
+	x2 = CN(1,0,1,0.9,numpy.matrix([[0],[0]]),100,100)[0]
+	x3 = CN(1,0,1,1,numpy.matrix([[0],[0]]),100,100)[0]
 
 	# plot the errors vs N for left point rule
 	plt.figure()
@@ -246,6 +246,32 @@ if __name__ == '__main__':
 	plt.ylabel('x')
 	plt.savefig('x3.png', bbox_inches='tight') 
 	plt.close('all')
+
+	# Part 5
+	wValues = []
+	maxValues = []
+	for i in range(1,101):
+		wValues.append(i/10)
+	for w in wValues:
+		x = CN(1,1/10,1,w,numpy.matrix([[0],[0]]),100,100)[0]
+		absValues =[abs(n) for n in x]
+		maxValues.append(max(absValues))
+
+	# plot the errors vs N for left point rule
+	plt.figure()
+	fig, ax = plt.subplots()
+	ax.set_yscale('log')
+	ax.set_xscale('log')
+	ax.plot(wValues, maxValues, label = 'max displacement')
+	legend = ax.legend(loc='upper left')
+	plt.title('Maximum displacement vs w')
+	plt.xlabel('w')
+	plt.ylabel('max displacement')
+	plt.savefig('Displacement.png', bbox_inches='tight') 
+	plt.close('all')
+
+
+
 
 
 
