@@ -121,7 +121,7 @@ if __name__ == '__main__':
 	correct = (1/2)*(math.sin(10)-10*(math.e**(-10)))
 
     # Create the range of N values.
-	N = [10**p for p in range(2,5)]
+	N = [10**p for p in range(2,4)]
 
 	# Initialize values lists
 	FEValues = []
@@ -206,6 +206,25 @@ if __name__ == '__main__':
 	plt.ylabel('Error')
 	plt.savefig('RK4.png', bbox_inches='tight') 
 	plt.close('all')
+
+	# Part 4
+	
+
+	(x1,times) = CN(1,0,1,0.8,numpy.matrix([[0],[0]]),100,100000)
+	x2 = CN(1,0,1,0.9,numpy.matrix([[0],[0]]),100,100000)
+	x3 = CN(1,0,1,1,numpy.matrix([[0],[0]]),100,100000)
+
+	# plot the errors vs N for left point rule
+	plt.figure()
+	fig, ax = plt.subplots()
+	ax.plot(times, x1, label = 'w=0.8')
+	legend = ax.legend(loc='upper left')
+	plt.title('x vs t for w=0.8')
+	plt.xlabel('t')
+	plt.ylabel('x')
+	plt.savefig('x1.png', bbox_inches='tight') 
+	plt.close('all')
+
 
 
 
