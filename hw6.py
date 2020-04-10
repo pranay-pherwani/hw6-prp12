@@ -155,8 +155,8 @@ if __name__ == '__main__':
 	# Find the actual value for step 3
 	correct = (1/2)*(math.sin(10)-10*(math.e**(-10)))
 
-    # Create the range of N values.
-	N = [10**p for p in range(2,4)]
+	# Create the range of N values.
+	N = [10**p for p in range(2,7)]
 
 	# Initialize values lists
 	FEValues = []
@@ -245,9 +245,9 @@ if __name__ == '__main__':
 	# Part 4
 
 	# Use CN to calculate the values for w=0.8,0.9,1
-	(x1,times) = CN(1,0,1,0.8,numpy.matrix([[0],[0]]),100,100)
-	x2 = CN(1,0,1,0.9,numpy.matrix([[0],[0]]),100,100)[0]
-	x3 = CN(1,0,1,1,numpy.matrix([[0],[0]]),100,100)[0]
+	(x1,times) = CN(1,0,1,0.8,numpy.matrix([[0],[0]]),100,10000)
+	x2 = CN(1,0,1,0.9,numpy.matrix([[0],[0]]),100,10000)[0]
+	x3 = CN(1,0,1,1,numpy.matrix([[0],[0]]),100,10000)[0]
 
 	# plot x vs t for w=0.8
 	plt.figure()
@@ -294,7 +294,7 @@ if __name__ == '__main__':
 
 	# Calculate max values from displacement lists using CN for each w
 	for w in wValues:
-		x = CN(1,1/10,1,w,numpy.matrix([[0],[0]]),100,100)[0]
+		x = CN(1,1/10,1,w,numpy.matrix([[0],[0]]),100,10000)[0]
 		absValues =[abs(n) for n in x]
 		maxValues.append(max(absValues))
 
